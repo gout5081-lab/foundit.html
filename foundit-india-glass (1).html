@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FoundIt India</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap">
+<style>
+:root{--ink:#2A2447;--mute:#5B5680;--found:#17794F;--lost:#BE3A5A;--sig:#9C86F0;--bg:#F5F0FF;--g:rgba(255,255,255,.5);--gb:rgba(255,255,255,.8);--gsh:0 10px 34px rgba(30,50,110,.16);--in:rgba(255,255,255,.6);--line:rgba(42,36,71,.16);--b1:#C9B8FF;--b2:#FFD3C2;--b3:#B8EBD6;--b4:#BFE3FF;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#F1ECFF;--mute:#BBB4DC;--found:#6EE7B0;--lost:#FF9DB5;--bg:#15122B;--g:rgba(255,255,255,.07);--gb:rgba(255,255,255,.2);--gsh:0 10px 34px rgba(0,0,0,.45);--in:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);--b1:#6D5BD0;--b2:#C2607A;--b3:#2E9C8A;--b4:#3E6FB5;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#F1ECFF;--mute:#BBB4DC;--found:#6EE7B0;--lost:#FF9DB5;--bg:#15122B;--g:rgba(255,255,255,.07);--gb:rgba(255,255,255,.2);--gsh:0 10px 34px rgba(0,0,0,.45);--in:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);--b1:#6D5BD0;--b2:#C2607A;--b3:#2E9C8A;--b4:#3E6FB5;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;background:var(--bg)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;color:var(--ink);font:400 17px/1.55 Hind,system-ui,-apple-system,"Segoe UI",sans-serif}
+body::after{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(540px 440px at 10% 6%,var(--b1),transparent 70%),radial-gradient(480px 400px at 94% 24%,var(--b2),transparent 70%),radial-gradient(580px 480px at 66% 98%,var(--b3),transparent 70%),radial-gradient(440px 380px at 42% 48%,var(--b4),transparent 70%)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--g);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);z-index:30}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sig);outline-offset:2px}
+/* liquid glass surface */
+.top .wrap,.hero .wrap,footer .wrap,.row,.card,.match,.seg,.chip,.ghost,.cb,.empty,dialog,#toast{background:var(--g);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);border:1px solid var(--gb);box-shadow:var(--gsh),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(255,255,255,.08)}
+.top{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:20;padding:8px 12px 0}
+.top .wrap{display:flex;align-items:center;gap:12px;height:58px;border-radius:99px;max-width:980px;padding:0 10px 0 14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;margin-right:auto;white-space:nowrap}
+.mark{background:linear-gradient(180deg,#FFD6E8,#CDB9FF);color:#3A2A6B;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;box-shadow:inset 0 1px 0 #fff9,0 2px 8px #b79cff77}
+nav{display:flex;gap:4px}
+nav button{background:none;border:0;padding:8px 14px;border-radius:99px;font-weight:500;transition:background .2s}
+nav button.on{background:linear-gradient(180deg,#FFD6E8,#CDB9FF);color:#3A2A6B;font-weight:700;box-shadow:inset 0 1px 0 #fff9}
+.ghost{border-radius:99px;padding:8px 14px;font-weight:500;box-shadow:none}
+.hero{padding:16px 12px 6px}
+.hero .wrap{border-radius:30px;padding:32px 26px 26px}
+h1{font-size:clamp(28px,5.4vw,46px);line-height:1.12;margin:0 0 10px;max-width:20ch;font-weight:700}
+.hero p{margin:0 0 20px;max-width:56ch;color:var(--mute)}
+.search{display:flex;gap:8px;max-width:640px}
+.search input{flex:1;min-width:0;padding:13px 18px;border-radius:99px;background:var(--in);border:1px solid var(--gb);box-shadow:inset 0 2px 6px rgba(20,33,61,.08)}
+::placeholder{color:var(--mute);opacity:.8}
+.pri{background:linear-gradient(180deg,#FFD6E8,#CDB9FF);color:#3A2A6B;border:0;border-radius:99px;padding:12px 24px;font-weight:700;box-shadow:inset 0 1px 0 #fffb,0 4px 14px #b79cff66;transition:transform .15s}
+.pri:hover{transform:translateY(-1px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border-radius:99px;padding:5px 14px;font-size:15px;box-shadow:none}
+.chip.on{background:linear-gradient(180deg,#FFD6E8,#CDB9FF);color:#3A2A6B;font-weight:700;border-color:#fff8}
+.bar{display:flex;align-items:center;justify-content:space-between;margin:22px 0 12px;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;border-radius:99px;overflow:hidden;padding:3px;gap:2px}
+.seg button{background:none;border:0;padding:7px 16px;font-weight:500;border-radius:99px}
+.seg button.on{background:linear-gradient(180deg,#FFD6E8,#CDB9FF);color:#3A2A6B;font-weight:700;box-shadow:inset 0 1px 0 #fff9}
+#count{color:var(--mute);font-size:15px}
+.board{display:grid;gap:10px;padding-bottom:30px}
+.row{--ac:var(--found);display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;text-align:left;width:100%;border-radius:20px;padding:12px 16px;box-shadow:inset 4px 0 0 var(--ac),var(--gsh),inset 0 1px 0 rgba(255,255,255,.6);transition:transform .2s}
+.row:hover{transform:translateY(-2px)}
+.row.lost{--ac:var(--lost)}
+.em{font-size:28px;text-align:center}
+.rt b{display:block;font-weight:600;line-height:1.3}
+.rt small,.rs small{color:var(--mute);font-size:14px}
+.rs{text-align:right;display:grid;gap:2px}
+.tag{font-style:normal;font-weight:700;font-size:13px;color:var(--found)}
+.lost .tag{color:var(--lost)}
+.empty{padding:28px;border-radius:20px;border-style:dashed;color:var(--mute);text-align:center}
+section.v{display:none}section.v.on{display:block}
+.pane{padding:26px 0 34px}
+.pane h2{font-size:28px;margin:0 0 4px}
+.card{border-radius:26px;padding:20px}
+label{display:block;font-weight:600;margin:14px 0 4px;font-size:15px}
+input,select,textarea{width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--gb);background:var(--in);box-shadow:inset 0 2px 6px rgba(20,33,61,.06)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.g2{grid-template-columns:1fr}nav button{padding:8px 9px;font-size:15px}.brand b{display:none}.hero .wrap{padding:26px 18px 22px}}
+.hint{color:var(--mute);font-size:14px;margin:4px 0 0}
+.err{color:var(--lost);font-weight:600;min-height:1.4em;margin:10px 0 0}
+.warn{background:#B79CFF33;border:1px solid #B79CFF99;padding:10px 14px;border-radius:16px;margin-top:14px;font-size:15px}
+.mt{margin-top:18px}
+.match{display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:center;padding:10px;border-radius:16px;margin-top:8px;text-align:left;width:100%;box-shadow:none}
+.pct{background:linear-gradient(180deg,#8E78EA,#5F49C0);color:#fff;border-radius:12px;font-weight:700;text-align:center;padding:8px 0}
+dialog{border-radius:30px;padding:0;max-width:560px;width:calc(100% - 24px);color:var(--ink);background:var(--g);-webkit-backdrop-filter:blur(34px) saturate(190%);backdrop-filter:blur(34px) saturate(190%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) dialog{background:rgba(20,28,52,.6)}}
+:root[data-theme="dark"] dialog{background:rgba(20,28,52,.6)}
+@media(prefers-color-scheme:light){dialog{background:rgba(255,255,255,.72)}}
+dialog::backdrop{background:#0a122655;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.dl{padding:22px;max-height:85vh;overflow:auto}
+.dl h3{margin:4px 0 6px;font-size:23px;line-height:1.25}
+.dl h4{margin:16px 0 0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;margin:12px 0;font-size:15px}
+.kv dt{color:var(--mute)}.kv dd{margin:0}
+.ok{background:#17b85a2e;border:1px solid var(--found);border-radius:16px;padding:12px;margin-top:12px}
+.x{float:right;background:var(--in);border:1px solid var(--gb);border-radius:50%;width:36px;height:36px;font-size:22px;line-height:1}
+/* contact options */
+.ct{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
+.cb{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;border-radius:16px;font-weight:600;font-size:15px;color:var(--ink);text-decoration:none;box-shadow:none;transition:transform .15s}
+.cb:hover{transform:translateY(-1px)}
+.cb.wa{background:rgba(37,211,102,.24);border-color:rgba(37,211,102,.6)}
+footer{padding:6px 12px calc(28px + env(safe-area-inset-bottom,0px))}
+footer .wrap{border-radius:30px;padding:20px 22px;color:var(--mute);font-size:14px;max-width:956px}
+footer h4{margin:0;color:var(--ink);font-size:17px}
+footer p{margin:12px 0 0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:10px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:90%;color:var(--ink)}
+#toast.on{opacity:1}
+
+/* animation */
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(26px);scale:.92 .84}60%{opacity:1;scale:1.03 1.02}to{opacity:1;transform:none;scale:1 1}}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-3%,4%) scale(1.12)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(240,112,143,.6)}100%{box-shadow:0 0 0 16px rgba(240,112,143,0)}}
+@keyframes blink{50%{opacity:.6}}
+body::after{animation:drift 16s ease-in-out infinite alternate}
+section.v.on{animation:fade .4s both}
+.board.anim .row{animation:rise .55s both cubic-bezier(.2,.7,.2,1)}
+.board.anim>:nth-child(2){animation-delay:0.05s}.board.anim>:nth-child(3){animation-delay:0.10s}.board.anim>:nth-child(4){animation-delay:0.15s}.board.anim>:nth-child(5){animation-delay:0.20s}.board.anim>:nth-child(6){animation-delay:0.25s}.board.anim>:nth-child(7){animation-delay:0.30s}.board.anim>:nth-child(8){animation-delay:0.35s}.board.anim>:nth-child(9){animation-delay:0.40s}.board.anim>:nth-child(10){animation-delay:0.45s}
+.card,.match{animation:rise .5s both cubic-bezier(.2,.7,.2,1)}
+.hero .wrap{animation:pop .6s both cubic-bezier(.2,.9,.3,1.1)}
+dialog[open]{animation:pop .4s cubic-bezier(.2,.9,.3,1.15)}
+dialog[open]::backdrop{animation:fade .3s}
+.pri{position:relative;overflow:hidden}
+.pri::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.65) 50%,transparent 70%);transform:translateX(-130%)}
+.pri:hover::after{transition:transform .8s;transform:translateX(130%)}
+.pri:active,.cb:active,.row:active,.chip:active{transform:scale(.97)}
+.chip,.seg button,.cb{transition:transform .15s,background .2s}
+.urgent{margin-top:14px;padding:14px;border-radius:20px;background:rgba(240,112,143,.14);border:1px solid rgba(240,112,143,.5)}
+.urgent p{margin:6px 0 12px;font-size:15px;color:var(--mute)}
+.geo{margin-top:14px;max-width:640px}.manual{margin-top:12px}.manual label{margin:0 0 4px;font-size:14px}.mhint{color:var(--lost);min-height:1.2em;margin:4px 0 0}
+.cb.call{background:linear-gradient(180deg,#F27A9B,#D4486F);color:#fff;border-color:rgba(255,255,255,.5);font-size:16px;animation:pulse 1.8s infinite}
+.urg{font-style:normal;font-size:12px;font-weight:700;color:#fff;background:#D4486F;border-radius:99px;padding:1px 9px;animation:blink 2s infinite;justify-self:end}
+
+/* intro */
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;align-content:center;gap:22px;background:radial-gradient(520px 420px at 15% 10%,var(--b1),transparent 70%),radial-gradient(480px 400px at 90% 30%,var(--b2),transparent 70%),radial-gradient(560px 460px at 60% 100%,var(--b3),var(--bg) 72%),var(--bg);text-align:center;cursor:pointer;transition:opacity .7s,transform .7s}
+#intro.out{opacity:0;transform:scale(1.06);pointer-events:none}
+.ilogo{position:relative;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;font-size:48px;font-weight:700;color:#3A2A6B;background:linear-gradient(180deg,#FFD6E8,#CDB9FF);box-shadow:inset 0 1px 0 #fffb,0 14px 40px #b79cff88;animation:logoin .9s .1s both cubic-bezier(.2,.9,.3,1.2)}
+.ilogo::before,.ilogo::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--sig);animation:ring 2s ease-out infinite}
+.ilogo::after{animation-delay:1s}
+.orb{position:absolute;inset:-26px;animation:spin 2.6s linear infinite}
+.orb i{position:absolute;top:-4px;left:50%;margin-left:-14px;font-size:28px;font-style:normal;transform:rotate(-45deg)}
+.iname{font-size:clamp(30px,8vw,46px);font-weight:700;letter-spacing:.5px;display:flex;justify-content:center;flex-wrap:wrap}
+.iname span{display:inline-block;animation:letter .6s both cubic-bezier(.2,.8,.2,1);animation-delay:calc(.7s + var(--i)*.05s)}
+.itag{margin:0;color:var(--mute);animation:fade .8s 1.5s both}
+.ibar{width:150px;height:5px;border-radius:99px;background:var(--line);overflow:hidden;animation:fade .4s 1.2s both}
+.ibar b{display:block;height:100%;background:linear-gradient(90deg,#FFD6E8,#9C86F0);transform-origin:left;animation:load 1.5s 1.3s both ease-in-out}
+.iskip{font-size:13px;color:var(--mute);opacity:.8;animation:fade .6s 1.8s both}
+@keyframes logoin{from{opacity:0;transform:scale(.3) rotate(-25deg)}to{opacity:1;transform:none}}
+@keyframes ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes letter{from{opacity:0;transform:translateY(16px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes load{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* liquid glass switch */
+.lsw{--w:78px;--h:40px;--tw:46px;--th:34px;--on:0;position:relative;flex:none;width:var(--w);height:var(--h);padding:0;border:0;border-radius:99px;background:rgba(110,118,150,.38);box-shadow:inset 0 2px 6px rgba(20,30,60,.22),0 0 0 rgba(52,224,143,0);transition:background .45s,box-shadow .45s;-webkit-tap-highlight-color:transparent}
+.lsw[aria-checked="true"]{background:linear-gradient(180deg,#5CE69A,#23BF68);box-shadow:inset 0 2px 6px rgba(0,60,30,.25),0 0 22px rgba(52,224,143,.6)}
+.lsw .lt{position:absolute;top:0;bottom:0;width:calc(var(--w)/2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--ink);transition:opacity .3s,color .3s;pointer-events:none}
+.lsw .lt:first-child{left:0}.lsw .lt:nth-child(2){right:0}
+.lsw[aria-checked="true"] .lt{color:#fff}
+.lsw .th{position:absolute;top:calc((var(--h) - var(--th))/2);left:3px;width:var(--tw);height:var(--th);border-radius:99px;pointer-events:none;
+background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.95);
+box-shadow:inset 0 0 0 2px rgba(255,255,255,.4),inset 0 7px 8px -5px #fff,inset 0 -5px 7px rgba(255,255,255,.35),0 6px 16px rgba(20,40,30,.28);
+-webkit-backdrop-filter:blur(1.5px) saturate(1.8) brightness(1.08);backdrop-filter:blur(1.5px) saturate(1.8) brightness(1.08);
+transform:translateX(0);transition:transform .6s cubic-bezier(.3,1.55,.5,1),width .3s cubic-bezier(.3,1.4,.5,1),background .3s}
+.lsw[aria-checked="true"] .th{transform:translateX(calc(var(--w) - var(--tw) - 6px))}
+.lsw:active .th{--tw:calc(var(--tw0) + 16px);background:rgba(255,255,255,.1)}
+.lsw{--tw0:46px}
+.lsw.jelly .th{animation:jelly .65s cubic-bezier(.3,1.4,.5,1)}
+@keyframes jelly{0%{scale:1 1}25%{scale:1.22 .86}55%{scale:.93 1.08}80%{scale:1.04 .98}100%{scale:1 1}}
+@media(max-width:480px){.lsw{--w:64px;--h:34px;--tw:38px;--th:28px;--tw0:38px}.lsw .lt{font-size:11px}}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;color:var(--ink);font-size:15px;font-weight:600}
+
+/* liquid glass tab thumb */
+nav{position:relative}
+nav button{position:relative;z-index:1}
+nav button.on{background:none;box-shadow:none;color:#3A2A6B;font-weight:700}
+.nth{position:absolute;top:0;left:0;height:100%;width:0;border-radius:99px;z-index:0;pointer-events:none;
+background:linear-gradient(180deg,rgba(255,214,232,.8),rgba(205,185,255,.62));border:1.5px solid rgba(255,255,255,.95);
+box-shadow:inset 0 0 0 2px rgba(255,255,255,.4),inset 0 7px 8px -5px #fff,inset 0 -5px 7px rgba(255,255,255,.3),0 6px 16px rgba(120,90,200,.3);
+-webkit-backdrop-filter:blur(1.5px) saturate(1.8) brightness(1.08);backdrop-filter:blur(1.5px) saturate(1.8) brightness(1.08);
+transition:transform .6s cubic-bezier(.3,1.55,.5,1),width .5s cubic-bezier(.3,1.45,.5,1)}
+.nth.st{transition:transform .17s ease-out,width .17s ease-out}
+.nth.jelly{animation:jelly .65s cubic-bezier(.3,1.4,.5,1)}
+
+/* liquid glass motion everywhere */
+.seg{position:relative;overflow:visible}
+.seg button{position:relative;z-index:1}
+.seg button.on{background:none;box-shadow:none;color:#3A2A6B;font-weight:700}
+.seg .nth{top:3px;height:calc(100% - 6px)}
+@keyframes squish{0%{scale:1 1}30%{scale:1.07 .9}60%{scale:.97 1.04}100%{scale:1 1}}
+@keyframes chipPop{0%{scale:1 1}30%{scale:1.16 .88}62%{scale:.96 1.05}100%{scale:1 1}}
+.press,.board.anim .row.press,.chip.on.press,.cb.call.press{animation:squish .5s cubic-bezier(.3,1.4,.5,1)}
+.chip.on{animation:chipPop .6s cubic-bezier(.3,1.4,.5,1)}
+.row{transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
+input,select,textarea{transition:box-shadow .35s,background .3s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+input:focus,select:focus,textarea:focus{background:rgba(255,255,255,.78);box-shadow:inset 0 2px 6px rgba(20,33,61,.06),0 0 0 4px rgba(156,134,240,.35),0 8px 24px rgba(156,134,240,.25);transform:scale(1.012)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) input:focus,:root:not([data-theme="light"]) select:focus,:root:not([data-theme="light"]) textarea:focus{background:rgba(255,255,255,.14)}}
+:root[data-theme="dark"] input:focus,:root[data-theme="dark"] select:focus,:root[data-theme="dark"] textarea:focus{background:rgba(255,255,255,.14)}
+#toast{transform:translateX(-50%) translateY(26px);scale:.9 .8;transition:opacity .25s,transform .6s cubic-bezier(.3,1.5,.5,1),scale .6s cubic-bezier(.3,1.5,.5,1)}
+#toast.on{transform:translateX(-50%);scale:1 1}
+@keyframes viewin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+section.v.on{animation:viewin .5s both cubic-bezier(.2,.8,.2,1)}
+.act{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.act .cb{flex:1}
+.cb.del[data-armed="1"]{background:rgba(240,112,143,.35);border-color:rgba(240,112,143,.85)}
+#editbar:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
+.lcard{max-width:440px;margin:0 auto}#lmode{margin:8px 0 2px}
+.lbrand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;margin-bottom:10px}
+.phrow{display:flex;gap:8px}.cc{display:grid;place-items:center;padding:0 14px;border-radius:14px;border:1px solid var(--gb);background:var(--in);font-weight:700}
+.otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px}
+.otp input{text-align:center;font-size:22px;font-weight:700;padding:12px 0}
+.wide{width:100%;margin-top:16px}
+.lnk{background:none;border:0;padding:0;color:var(--ink);text-decoration:underline;font-weight:600;font-size:inherit}
+.lnk:disabled{opacity:.5;text-decoration:none}
+.demo{margin-top:14px;padding:10px 14px;border-radius:16px;background:rgba(156,134,240,.2);border:1px dashed var(--sig);font-size:14px}
+/* app opening: iris reveal + staggered app entrance */
+#intro{clip-path:circle(150% at 50% 45%);transition:clip-path .9s cubic-bezier(.7,0,.2,1),opacity .9s}
+#intro.out{clip-path:circle(0% at 50% 45%);opacity:0;transform:none}
+@keyframes dropin{from{opacity:0;transform:translateY(-36px);scale:.85 .7}60%{opacity:1;scale:1.03 1.06}to{opacity:1;transform:none;scale:1 1}}
+@keyframes openUp{from{opacity:0;transform:translateY(40px);scale:.94 .9;filter:blur(8px)}to{opacity:1;transform:none;scale:1 1;filter:none}}
+.reveal .top .wrap{animation:dropin .9s .1s both cubic-bezier(.3,1.4,.5,1)}
+.reveal .hero .wrap,.reveal .lcard{animation:openUp .9s .25s both cubic-bezier(.2,.8,.2,1)}
+.reveal footer .wrap{animation:openUp .9s .6s both cubic-bezier(.2,.8,.2,1)}
+body:not(.authed) nav{display:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="intro" role="presentation"><div class="ilogo">F<div class="orb"><i>🔍</i></div></div><div class="iname" aria-label="FoundIt India"><span style="--i:0">F</span><span style="--i:1">o</span><span style="--i:2">u</span><span style="--i:3">n</span><span style="--i:4">d</span><span style="--i:5">I</span><span style="--i:6">t</span><span style="--i:7">&nbsp;</span><span style="--i:8">I</span><span style="--i:9">n</span><span style="--i:10">d</span><span style="--i:11">i</span><span style="--i:12">a</span></div><p class="itag" data-t="intro_tag">Lost it? Found it. Returned.</p><div class="ibar"><b></b></div><div class="iskip" data-t="intro_skip">Tap to skip</div></div>
+<header class="top"><div class="wrap">
+<div class="brand"><span class="mark">F</span><b>FoundIt India</b></div>
+<nav><button data-v="home" class="on" data-t="n_home">Find</button><button data-v="report" data-t="n_report">Report</button><button data-v="mine" data-t="n_mine">My reports</button></nav>
+<button class="lsw" id="lang" role="switch" aria-checked="false" aria-label="Language: English or Hindi"><span class="lt">EN</span><span class="lt">हि</span><i class="th"></i></button>
+</div></header>
+<main>
+<section id="v-home" class="v on">
+<div class="hero"><div class="wrap">
+<h1 data-t="h1">Lost it on the Rajdhani? Left it in the Metro? Start here.</h1>
+<p data-t="sub">One shared place across all 28 states and 8 Union Territories for things lost or found on trains, Metro, buses, campuses, malls and markets.</p>
+<div class="search"><input id="q" placeholder="Try: black phone, spectacles, chabi, 12951" aria-label="Search"><button class="pri" id="go" data-t="search">Search</button></div>
+<div class="chips" id="modes"></div>
+<div class="g2 geo"><select id="fs" aria-label="State or UT"></select><select id="fc" aria-label="City"></select></div>
+</div></div>
+<div class="wrap">
+<div class="bar"><div class="seg" id="kinds"><button data-k="" class="on" data-t="all">All</button><button data-k="found" data-t="found">Found</button><button data-k="lost" data-t="lost">Lost</button></div><span id="count"></span></div>
+<div class="board anim" id="board"></div>
+</div></section>
+
+<section id="v-report" class="v"><div class="wrap pane">
+<h2 data-t="r_h">What happened?</h2>
+<p class="hint" data-t="r_p">Details stay on your device in this demo. Never post Aadhaar, PAN or card numbers.</p>
+<form id="form" class="card mt" autocomplete="off">
+<div class="warn" id="editbar" hidden></div>
+<div class="seg" id="fkind"><button type="button" data-k="lost" class="on" data-t="k_lost">I lost something</button><button type="button" data-k="found" data-t="k_found">I found something</button></div>
+<label data-t="l_where">Where did it happen?</label>
+<div class="chips dark" id="fmodes"></div>
+<div class="g2"><div><label id="la">A</label><input id="fa"></div><div><label id="lb">B</label><input id="fb"></div></div>
+<div class="g2"><div><label data-t="l_state">State / UT</label><select id="state" required></select></div><div><label data-t="l_city">City</label><input id="city" list="cities" required placeholder="Kolkata"></div></div>
+<label data-t="l_place">Station, stop or area</label><input id="place" required placeholder="Howrah Junction">
+<div class="g2"><div><label data-t="l_cat">What is it?</label><select id="cat"></select></div><div><label data-t="l_date">Date</label><input type="date" id="date"></div></div>
+<div id="cust" hidden><div class="g2"><div><label data-t="l_cn">Name your item</label><input id="cn" maxlength="40" placeholder="Guitar, tiffin box, pet collar"></div><div><label data-t="l_ce">Pick an icon</label><select id="ce"><option>✏️</option><option>🎸</option><option>🍱</option><option>🐕</option><option>🎁</option><option>⌚</option><option>📷</option><option>🎒</option><option>👔</option><option>👟</option><option>💍</option><option>📚</option><option>💊</option><option>🎮</option><option>🔦</option></select></div></div></div>
+<label data-t="l_title">Short title</label><input id="title" required maxlength="80" placeholder="Black Redmi phone with cracked corner">
+<label data-t="l_desc">Colour, brand, marks</label><textarea id="desc" rows="2" maxlength="300" placeholder="Blue case, Ganesh sticker on the back"></textarea>
+<div id="sec" hidden><div class="warn" data-t="w_sec">Ask a question only the real owner can answer. Do not put the answer in the description.</div>
+<label data-t="l_sq">Verification question</label><input id="sq" placeholder="What is the lock-screen wallpaper?">
+<label data-t="l_sa">Correct answer</label><input id="sa" placeholder="Golden retriever puppy"></div>
+<div class="g2"><div><label data-t="l_name">Your name</label><input id="name" required></div><div><label data-t="l_phone">Mobile number</label><input id="phone" required inputmode="tel" placeholder="98765 00210"></div></div>
+<p class="err" id="err" role="alert"></p>
+<button class="pri" type="submit" data-t="submit">Submit report</button>
+</form>
+<datalist id="cities"></datalist>
+</div></section>
+
+<section id="v-mine" class="v"><div class="wrap pane">
+<h2 data-t="m_h">My reports</h2>
+<p class="hint" data-t="m_p">Smart matches update every time someone files a report.</p>
+<div id="mine" class="mt"></div>
+</div></section>
+<section id="v-login" class="v"><div class="wrap pane"><div class="card lcard">
+<div class="lbrand"><span class="mark">F</span><b>FoundIt India</b></div>
+<h2 data-t="lg_h">Sign in</h2><p class="hint" data-t="lg_p">Sign in to find, report and return lost things. We send a 6-digit code to your mobile number or email.</p>
+<div id="lg1"><div class="seg" id="lmode"><button type="button" data-k="phone" class="on" data-t="lg_mob">Mobile</button><button type="button" data-k="email" data-t="lg_mail">Email</button></div>
+<label for="lname" data-t="lg_name">Your name</label><input id="lname" autocomplete="name" maxlength="40" placeholder="Arjun D.">
+<div id="lph"><label for="lphone" data-t="lg_ph">Mobile number</label><div class="phrow"><span class="cc">+91</span><input id="lphone" inputmode="numeric" autocomplete="tel-national" maxlength="11" placeholder="98765 00210"></div></div>
+<div id="lem" hidden><label for="lemail" data-t="lg_em">Email address</label><input id="lemail" type="email" inputmode="email" autocomplete="email" maxlength="80" placeholder="asha@example.com"></div>
+<p class="err" id="lerr" role="alert"></p><button class="pri wide" id="lsend" type="button" data-t="lg_send">Send code</button></div>
+<div id="lg2" hidden><p class="hint"><span data-t="lg_to">Code sent to</span> <b id="lto"></b> · <button class="lnk" id="lchg" type="button" data-t="lg_chg">Change</button></p>
+<div class="otp" id="otp"></div><p class="err" id="lerr2" role="alert"></p>
+<button class="pri wide" id="lverify" type="button" data-t="lg_verify">Verify and sign in</button>
+<p class="hint"><span id="lt"></span> <button class="lnk" id="lres" type="button" disabled data-t="lg_res">Resend code</button></p>
+<div class="demo"><b>Demo mode:</b> nothing is actually sent. Your code is <b id="dcode"></b>. A live app would send it to your phone or email.</div></div>
+<p class="hint mt" data-t="lg_priv">We use your number only to verify you and let owners and finders reach each other. Never share your OTP with anyone.</p>
+</div></div></section>
+</main>
+<footer><div class="wrap"><h4 data-t="help_h">Need help right now?</h4>
+<div class="ct"><a class="cb" href="tel:139">🚆 Railways 139</a><a class="cb" href="tel:182">🛡️ RPF 182</a><a class="cb" href="tel:112">🚨 Emergency 112</a></div>
+<p>On trains, tell the TTE, RPF or GRP. In the Metro, go to the Station Controller. At airports, use the airline or airport lost-property desk. Always hand over items at a staffed help desk, never in a lonely spot.</p>
+<div class="setrow"><span id="acct"></span><button class="ghost" id="acbtn" type="button"></button></div>
+<div class="setrow"><span data-t="reset_h">Reset sample reports</span><button class="ghost" id="reset" type="button">Reset</button></div>
+<div class="setrow"><span data-t="dark">Dark mode</span><button class="lsw" id="theme" role="switch" aria-checked="false" aria-label="Dark mode"><span class="lt">☀️</span><span class="lt">🌙</span><i class="th"></i></button></div></div></footer>
+<dialog id="dlg"></dialog><div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const iso=n=>{const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().slice(0,10)};
+const days=d=>Math.round((new Date(iso(0))-new Date(d))/864e5);
+const ago=d=>{const n=days(d);return n<=0?(hi()?"आज":"Today"):n==1?(hi()?"कल":"Yesterday"):n+(hi()?" दिन पहले":" days ago")};
+const MODES={
+rail:["🚆","Railways","रेलवे","Train name or number","12951 Mumbai Rajdhani","Station code, coach, seat","NDLS, B2, seat 34"],
+metro:["🚇","Metro","मेट्रो","Line","Yellow Line","Station or coach","Rajiv Chowk, ladies coach"],
+bus:["🚌","Bus","बस","Route or bus number","500 / KA-01-F-1234","Depot or stop","Majestic bus stand"],
+campus:["🎓","College","कॉलेज","School or college","Presidency University","Block or room","Library, room 204"],
+mall:["🛍️","Mall","मॉल","Mall name","Phoenix Marketcity","Floor or shop","Level 2 food court"],
+airport:["✈️","Airport","हवाई अड्डा","Airport (code)","Kolkata (CCU)","Terminal or gate","Terminal 2, Gate 4"],
+market:["🏪","Market","बाज़ार","Market name","Crawford Market","Lane or shop","Lane 3"],
+event:["🙏","Temple or event","मंदिर/मेला","Temple or event","Kalighat Temple","Gate or area","Gate 2"]};
+const CATS={phone:["📱","Phone","फ़ोन"],wallet:["👛","Wallet or purse","बटुआ"],docs:["🆔","ID or licence","पहचान पत्र"],bag:["🎒","Bag","बैग"],keys:["🔑","Keys","चाबी"],laptop:["💻","Laptop or tablet","लैपटॉप"],specs:["👓","Spectacles","चश्मा"],earbuds:["🎧","Earbuds or charger","ईयरबड्स"],umbrella:["☂️","Umbrella","छाता"],other:["📦","Something else","अन्य"],custom:["✏️","Custom item (type your own)","अपनी चीज़ (खुद लिखें)"]};
+const HI={n_home:"खोजें",n_report:"रिपोर्ट करें",n_mine:"मेरी रिपोर्ट",h1:"राजधानी में खोया? मेट्रो में छूटा? यहाँ से शुरू करें।",sub:"सभी 28 राज्यों और 8 केंद्रशासित प्रदेशों में रेल, मेट्रो, बस, कॉलेज, मॉल और बाज़ार में खोई या मिली चीज़ों के लिए एक साझा मंच।",search:"खोजें",all:"सब",found:"मिला",lost:"खोया",r_h:"क्या हुआ?",r_p:"इस डेमो में जानकारी आपके फ़ोन में ही रहती है। आधार, पैन या कार्ड नंबर कभी न डालें।",k_lost:"मेरी चीज़ खोई",k_found:"मुझे कुछ मिला",l_where:"कहाँ हुआ?",l_city:"शहर",l_place:"स्टेशन, स्टॉप या इलाका",l_cat:"क्या चीज़ है?",l_date:"तारीख",l_title:"छोटा शीर्षक",l_desc:"रंग, ब्रांड, निशान",l_name:"आपका नाम",l_phone:"मोबाइल नंबर",l_sq:"पहचान का सवाल",l_sa:"सही जवाब",w_sec:"ऐसा सवाल पूछें जिसका जवाब सिर्फ़ असली मालिक जानता हो। जवाब विवरण में न लिखें।",submit:"रिपोर्ट जमा करें",m_h:"मेरी रिपोर्ट",m_p:"हर नई रिपोर्ट के साथ स्मार्ट मैच अपने आप बदलते हैं।",help_h:"अभी मदद चाहिए?",dark:"डार्क मोड",save_edit:"बदलाव सहेजें",reset_h:"नमूना रिपोर्ट रीसेट करें",lg_h:"साइन इन",lg_p:"खोई चीज़ें खोजने, रिपोर्ट करने और लौटाने के लिए साइन इन करें। हम आपके मोबाइल नंबर या ईमेल पर 6 अंकों का कोड भेजेंगे।",lg_mob:"मोबाइल",lg_mail:"ईमेल",lg_em:"ईमेल पता",lg_name:"आपका नाम",lg_ph:"मोबाइल नंबर",lg_send:"कोड भेजें",lg_to:"कोड भेजा गया",lg_chg:"बदलें",lg_verify:"जाँचें और साइन इन करें",lg_res:"कोड दोबारा भेजें",lg_guest:"बिना साइन इन के देखें",lg_priv:"हम आपका नंबर सिर्फ़ पहचान के लिए और मालिक व खोजने वाले को जोड़ने के लिए इस्तेमाल करते हैं। अपना OTP किसी को न बताएँ।",intro_tag:"खोया? मिला। लौटाया।",intro_skip:"छोड़ने के लिए टैप करें",l_state:"राज्य / केंद्रशासित प्रदेश",l_cn:"अपनी चीज़ का नाम",l_ce:"आइकन चुनें"};
+const hi=()=>S.lang==="hi";
+const mname=m=>MODES[m][hi()?2:1],cname=c=>CATS[c][hi()?2:1];
+const SYN={mobile:"phone",smartphone:"phone",cellphone:"phone",iphone:"phone",redmi:"phone",samsung:"phone",chashma:"spectacle",glasses:"spectacle",specs:"spectacle",spectacles:"spectacle",jhola:"bag",backpack:"bag",bags:"bag",purse:"wallet",chabi:"key",keys:"key",keychain:"key",dabba:"lunchbox",tiffin:"lunchbox",chhata:"umbrella",chata:"umbrella",earphones:"earbud",earbuds:"earbud",airpods:"earbud",headphones:"earbud",license:"licence",dl:"licence",notebook:"laptop",macbook:"laptop"};
+const tok=s=>(s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>1&&!["the","and","with","has","in","of","on","a"].includes(w)).map(w=>SYN[w]||SYN[w.replace(/s$/,"")]||w.replace(/s$/,""));
+function score(a,b){
+if(a.kind===b.kind)return null;let p=0,r=[];
+if(a.cat===b.cat&&(a.cat!=="custom"||tok(a.cn).some(w=>tok(b.cn).includes(w)))){p+=30;r.push("Same type: "+(a.cn||CATS[a.cat][1]))}
+const A=new Set(tok([a.title,a.desc,a.cn].join(" "))),B=new Set(tok([b.title,b.desc,b.cn].join(" "))),c=[...A].filter(w=>B.has(w));
+if(c.length){p+=Math.min(35,Math.round(35*c.length/Math.max(2,Math.min(A.size,B.size))));r.push("Shared words: "+c.slice(0,4).join(", "))}
+if(a.city.toLowerCase()===b.city.toLowerCase()){p+=10;r.push("Same city")}else if(stateOf(a)&&stateOf(a)===stateOf(b)){p+=4;r.push("Same state")}
+if(a.mode===b.mode){p+=10;r.push("Same place type")}
+const ta=tok(a.a),tb=tok(b.a);if(ta.some(w=>tb.includes(w)&&w.length>2)){p+=10;r.push("Same train, route or venue")}
+if(Math.abs(days(a.date)-days(b.date))<=4){p+=5;r.push("Dates are close")}
+return p<45?null:{p:Math.min(99,p),r}}
+const IN={"Andaman & Nicobar Islands": ["Port Blair"], "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Tirupati", "Guntur"], "Arunachal Pradesh": ["Itanagar", "Naharlagun"], "Assam": ["Guwahati", "Dibrugarh", "Silchar", "Jorhat"], "Bihar": ["Patna", "Gaya", "Muzaffarpur", "Bhagalpur"], "Chandigarh": ["Chandigarh"], "Chhattisgarh": ["Raipur", "Bilaspur", "Durg"], "Dadra & Nagar Haveli and Daman & Diu": ["Daman", "Silvassa"], "Delhi": ["Delhi"], "Goa": ["Panaji", "Margao", "Vasco da Gama"], "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"], "Haryana": ["Gurugram", "Faridabad", "Ambala", "Panipat"], "Himachal Pradesh": ["Shimla", "Manali", "Dharamshala"], "Jammu & Kashmir": ["Srinagar", "Jammu"], "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad"], "Karnataka": ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi"], "Kerala": ["Kochi", "Thiruvananthapuram", "Kozhikode", "Thrissur"], "Ladakh": ["Leh"], "Lakshadweep": ["Kavaratti"], "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur"], "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik"], "Manipur": ["Imphal"], "Meghalaya": ["Shillong"], "Mizoram": ["Aizawl"], "Nagaland": ["Kohima", "Dimapur"], "Odisha": ["Bhubaneswar", "Cuttack", "Puri"], "Puducherry": ["Puducherry"], "Punjab": ["Ludhiana", "Amritsar", "Jalandhar"], "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota"], "Sikkim": ["Gangtok"], "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli"], "Telangana": ["Hyderabad", "Warangal"], "Tripura": ["Agartala"], "Uttar Pradesh": ["Lucknow", "Varanasi", "Kanpur", "Prayagraj", "Noida"], "Uttarakhand": ["Dehradun", "Haridwar"], "West Bengal": ["Kolkata", "Howrah", "Siliguri", "Durgapur"]};const CITY2ST={};for(const s in IN)IN[s].forEach(c=>CITY2ST[c.toLowerCase()]=s);
+const stateOf=i=>i.state||CITY2ST[(i.city||"").toLowerCase()]||"";
+const SEED=[
+{id:"s1",kind:"found",mode:"rail",cat:"phone",title:"Black Redmi phone, cracked corner",desc:"Blue silicone case, Ganesh sticker",a:"12951 Mumbai Rajdhani",b:"NDLS, B3, seat 21",city:"Delhi",place:"New Delhi Station, Platform 9",date:iso(1),name:"Rakesh S.",phone:"9876500210",sq:"What is the lock-screen wallpaper?",sa:"golden retriever puppy"},
+{id:"s2",kind:"found",mode:"metro",cat:"wallet",title:"Brown leather wallet with college ID",desc:"Has a Hansraj College ID and a Metro card",a:"Yellow Line",b:"Rajiv Chowk",city:"Delhi",place:"Rajiv Chowk",date:iso(0),name:"Anita K.",phone:"9811100234",sq:"Which college is on the ID?",sa:"Hansraj College"},
+{id:"s3",kind:"lost",mode:"bus",cat:"bag",title:"Blue Wildcraft backpack with laptop",desc:"Grey laptop sleeve inside, red zip pull",a:"500 / KA-01-F-1234",b:"Majestic bus stand",city:"Bengaluru",place:"Majestic",date:iso(2),name:"Divya N.",phone:"9845012345"},
+{id:"s4",kind:"found",mode:"campus",cat:"specs",title:"Black-framed spectacles in green case",desc:"Case reads like an optician’s gift",a:"Presidency University",b:"Library block",city:"Kolkata",place:"College Street",date:iso(3),name:"Prof. Sen",phone:"9830011223",sq:"What is printed on the case?",sa:"Dr Mitra Opticians"},
+{id:"s5",kind:"lost",mode:"market",cat:"keys",title:"Four keys with Ganesh keychain",desc:"Bike key with a red cap, brass door key",a:"Crawford Market",b:"Lane 3",city:"Mumbai",place:"Crawford Market",date:iso(1),name:"Imran S.",phone:"9920055667"},
+{id:"s6",kind:"found",mode:"mall",cat:"earbuds",title:"White boAt earbuds case",desc:"Small scratch on lid",a:"Phoenix Marketcity",b:"Level 2 food court",city:"Pune",place:"Viman Nagar",date:iso(0),name:"Sneha P.",phone:"9822011890",sq:"Which colour is the left earbud tip?",sa:"black"},
+{id:"s7",kind:"lost",mode:"airport",cat:"docs",title:"Driving licence in a black cardholder",desc:"West Bengal licence, cardholder has a zip",a:"Kolkata (CCU)",b:"Terminal 2, Gate 4",city:"Kolkata",place:"CCU Airport",date:iso(2),name:"Arjun D.",phone:"9830099887"},
+{id:"s8",kind:"found",mode:"rail",cat:"laptop",title:"Silver HP laptop in grey sleeve",desc:"Sticker of a cricket team on the lid",a:"12301 Howrah Rajdhani",b:"HWH, A1, seat 12",city:"Kolkata",place:"Howrah Junction",date:iso(1),name:"Sourav B.",phone:"9831022334",sq:"Which team is on the sticker?",sa:"KKR"},
+{id:"s9",kind:"found",mode:"event",cat:"umbrella",title:"Large black umbrella, wooden handle",desc:"Left near the shoe stand",a:"Kalighat Temple",b:"Gate 2",city:"Kolkata",place:"Kalighat",date:iso(4),name:"Temple office",phone:"9830077665",sq:"What is tied to the handle?",sa:"red thread"},
+{id:"s10",kind:"lost",mode:"rail",cat:"phone",title:"Blue Samsung phone, clear cover",desc:"Lock screen shows a temple photo",a:"12615 Grand Trunk Express",b:"MAS, S5, seat 40",city:"Chennai",place:"Chennai Central",date:iso(1),name:"Karthik R.",phone:"9000000010"},
+{id:"s11",kind:"found",mode:"metro",cat:"wallet",title:"Black wallet with a Metro card",desc:"Card balance low, has a Charminar keychain",a:"Red Line",b:"Ameerpet",city:"Hyderabad",place:"Ameerpet Metro",date:iso(0),name:"Fatima S.",phone:"9000000011",sq:"What small charm is on the zip?",sa:"charminar"},
+{id:"s12",kind:"lost",mode:"bus",cat:"bag",title:"Grey duffel bag with clothes",desc:"Yellow tag with a Jaipur address",a:"RSRTC Volvo to Delhi",b:"Sindhi Camp stand",city:"Jaipur",place:"Sindhi Camp",date:iso(2),name:"Rohit M.",phone:"9000000012"},
+{id:"s13",kind:"found",mode:"market",cat:"keys",title:"Scooter key with blue remote",desc:"Two house keys on a steel ring",a:"Aminabad Market",b:"Near the sweet shop",city:"Lucknow",place:"Aminabad",date:iso(1),name:"Shop owner",phone:"9000000013",sq:"What colour is the remote?",sa:"blue"},
+{id:"s14",kind:"lost",mode:"airport",cat:"docs",title:"Passport in a navy cover",desc:"Has a boarding pass tucked inside",a:"Goa (GOX)",b:"Departures, Gate 2",city:"Panaji",place:"Manohar International Airport",date:iso(1),name:"Meera D.",phone:"9000000014"},
+{id:"s15",kind:"found",mode:"rail",cat:"phone",title:"Silver OnePlus phone",desc:"Black case, a cracked screen guard",a:"15959 Kamrup Express",b:"GHY, S3, seat 18",city:"Guwahati",place:"Guwahati Station",date:iso(0),name:"Bikram T.",phone:"9000000015",sq:"What wallpaper is on the phone?",sa:"mountains"}];
+let S;try{S=JSON.parse(localStorage.getItem("foundit-v1"))}catch(e){}
+if(!S||!S.items)S={items:JSON.parse(JSON.stringify(SEED)),lang:"en"};
+SEED.forEach(s=>{if(!S.items.some(i=>i.id===s.id))S.items.push(JSON.parse(JSON.stringify(s)))});
+const save=()=>{try{localStorage.setItem("foundit-v1",JSON.stringify(S))}catch(e){}};
+const F={kind:"lost",mode:"rail"},V={q:"",mode:"",kind:"",st:"",ct:""};
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2600)}
+function applyLang(){$$("[data-t]").forEach(e=>{if(!e.dataset.en)e.dataset.en=e.textContent;e.textContent=hi()&&HI[e.dataset.t]?HI[e.dataset.t]:e.dataset.en});document.documentElement.lang=hi()?"hi":"en";$("#lang").setAttribute("aria-checked",hi());drawModes();fieldLabels();renderAll()}
+function chipHTML(list,sel){return list.map(([k,l])=>`<button type="button" class="chip${sel===k?" on":""}" data-m="${k}">${l}</button>`).join("")}
+function fillGeo(){const fs=$("#fs");fs.innerHTML=`<option value="">${hi()?"पूरा भारत (सभी राज्य)":"All India (every state & UT)"}</option>`+Object.keys(IN).map(s=>`<option${V.st===s?" selected":""}>${esc(s)}</option>`).join("");
+const cs=V.st?[...new Set([...IN[V.st],...S.items.filter(i=>stateOf(i)===V.st).map(i=>i.city)])].sort():[];
+$("#fc").innerHTML=`<option value="">${hi()?"सभी शहर":"All cities"}</option>`+cs.map(c=>`<option${V.ct===c?" selected":""}>${esc(c)}</option>`).join("");$("#fc").disabled=!V.st}
+function fillForm(){const st=$("#state"),v=st.value;st.innerHTML=`<option value="">${hi()?"राज्य / केंद्रशासित प्रदेश चुनें":"Select state / UT"}</option>`+Object.keys(IN).map(s=>`<option>${esc(s)}</option>`).join("");st.value=v;fillCities()}
+function fillCities(){const s=$("#state").value,l=s?IN[s]:Object.values(IN).flat().sort();$("#cities").innerHTML=l.map(c=>`<option>${esc(c)}</option>`).join("")}
+function drawModes(){fillGeo();fillForm();
+$("#modes").innerHTML=chipHTML([["",hi()?"सब जगह":"Everywhere"],...Object.keys(MODES).map(k=>[k,MODES[k][0]+" "+mname(k)])],V.mode);
+$("#fmodes").innerHTML=chipHTML(Object.keys(MODES).map(k=>[k,MODES[k][0]+" "+mname(k)]),F.mode);
+const cs=$("#cat"),v=cs.value;cs.innerHTML=Object.keys(CATS).map(k=>`<option value="${k}">${CATS[k][0]} ${cname(k)}</option>`).join("");if(v)cs.value=v}
+function fieldLabels(){const m=MODES[F.mode];$("#la").textContent=m[3];$("#fa").placeholder=m[4];$("#lb").textContent=m[5];$("#fb").placeholder=m[6]}
+function row(it){const m=MODES[it.mode],c=CATS[it.cat];return `<button class="row ${it.kind}" data-id="${it.id}"><span class="em">${it.ce||c[0]}</span><span class="rt"><b>${esc(it.title)}</b><small>${m[0]} ${esc(it.a||mname(it.mode))}, ${esc(it.place)}, ${esc(it.city)}</small></span><span class="rs"><i class="tag">${it.kind==="found"?(hi()?"मिला":"Found"):(hi()?"खोया":"Lost")}</i>${it.cat==="docs"&&it.kind==="lost"?`<i class="urg">📞 ${hi()?"मालिक को कॉल":"Call owner"}</i>`:""}<small>${ago(it.date)}</small></span></button>`}
+function renderBoard(){
+const q=tok(V.q),list=S.items.filter(i=>i.status!=="returned"&&(!V.mode||i.mode===V.mode)&&(!V.kind||i.kind===V.kind)&&(!V.st||stateOf(i)===V.st)&&(!V.ct||i.city===V.ct)&&(!q.length||q.some(w=>tok([i.title,i.desc,i.a,i.b,i.place,i.city,stateOf(i),CATS[i.cat][1],i.cn].join(" ")).includes(w)))).sort((a,b)=>b.date.localeCompare(a.date));
+$("#count").textContent=list.length+(hi()?" रिपोर्ट":" reports");
+$("#board").innerHTML=list.length?list.map(row).join(""):`<div class="empty">${hi()?"कुछ नहीं मिला। दूसरा शब्द आज़माएँ, या खुद रिपोर्ट करें।":"Nothing matches yet. Try another word, or file your own report so finders can reach you."}</div>`}
+function matches(it){return S.items.filter(o=>o.id!==it.id&&o.status!=="returned").map(o=>({o,s:score(it,o)})).filter(x=>x.s).sort((a,b)=>b.s.p-a.s.p).slice(0,3)}
+function matchHTML(it){const m=matches(it);return m.length?m.map(({o,s})=>`<button class="match" data-id="${o.id}"><span class="pct">${s.p}%</span><span><b>${esc(o.title)}</b><br><small class="hint">${esc(s.r.join(", "))}</small></span></button>`).join(""):`<p class="hint">${hi()?"अभी कोई मैच नहीं।":"No match yet. You will see it here as soon as someone reports a similar item."}</p>`}
+function renderMine(){const l=S.items.filter(i=>i.mine&&(!i.owner||!S.user||i.owner===uid()));
+$("#mine").innerHTML=l.length?l.map(it=>`<div class="card" style="margin-bottom:14px">${row(it)}<h4 style="margin:14px 0 0">${hi()?"स्मार्ट मैच":"Smart matches"}</h4>${it.status==="returned"?`<p class="hint">Marked as returned.</p>`:matchHTML(it)}${it.status==="returned"?"":`<p class="mt"><button class="ghost" style="color:var(--ink);border-color:var(--line)" data-done="${it.id}">${it.kind==="found"?"Handed back to owner":"I got it back"}</button></p>`}<div class="act">${actHTML(it)}</div></div>`).join(""):`<div class="empty">${hi()?"आपने अभी कोई रिपोर्ट नहीं की।":"No reports yet. Try reporting a lost black phone on train 12951 from Delhi and see the smart match."}</div>`}
+function renderAll(){renderBoard();renderMine();updateAccount()}
+const TIPS={rail:"Meet at the station master’s office or an RPF or GRP post. Railways helpline: 139.",metro:"Meet at the Station Controller’s room. Metro lost-property desks keep items safe.",airport:"Use the airport or airline lost-property desk, not the car park.",bus:"Meet at the depot manager’s office or the nearest police booth.",campus:"Meet at the college office or security desk.",mall:"Meet at the mall’s customer service or security desk.",market:"Meet at the nearest police booth or a busy shop front.",event:"Meet at the temple or event office, or a police help booth."};
+function contact(it,k){const p=esc(it.phone),m=encodeURIComponent(k==="lost"?`Hello ${it.name}, I may have found your "${it.title}" (reported on FoundIt India).`:`Hello ${it.name}, I am the owner of the "${it.title}" you found. My claim was verified on FoundIt India.`);
+return `<div class="ct"><a class="cb" data-l="tel" href="tel:+91${p}">📞 ${hi()?"कॉल":"Call"}</a><a class="cb wa" data-l="wa" href="https://wa.me/91${p}?text=${m}" target="_blank" rel="noopener">💬 WhatsApp</a><a class="cb" data-l="sms" href="sms:+91${p}?body=${m}">✉️ SMS</a><button type="button" class="cb" data-copy="${p}">📋 ${hi()?"नंबर कॉपी":"Copy number"}</button></div>
+<div class="manual" data-m="${m}"><label>✍️ ${hi()?"कोई और नंबर खुद लिखें":"Or type a number yourself"}</label><input class="mnum" inputmode="tel" maxlength="16" placeholder="98765 00210" aria-label="Mobile number"><p class="hint mhint"></p><p class="hint">${hi()?"ऊपर के सभी बटन इसी नंबर पर काम करेंगे।":"The Call, WhatsApp, SMS and Copy buttons will use this number."}</p></div>`}
+function urgent(it){const p=esc(it.phone);return `<div class="urgent"><b>🆔 ${hi()?"निजी दस्तावेज़ खोया है":"Personal document lost"}</b><p>${hi()?"मालिक को अभी कॉल करें ताकि वे उसे जल्दी ब्लॉक या दोबारा बनवा सकें। दस्तावेज़ का नंबर चैट में न भेजें।":"Call the owner right now so they can block or replace it quickly. Never share the document number over chat."}</p><a class="cb call" data-l="tel" href="tel:+91${p}">📞 ${hi()?"मालिक को अभी कॉल करें":"Call owner now"} · <span class="num">+91 ${p}</span></a></div>`}
+const syncCust=()=>{$("#cust").hidden=$("#cat").value!=="custom"};
+function pulse(){const b=$("#board");b.classList.remove("anim");void b.offsetWidth;b.classList.add("anim")}
+function openItem(id){const it=S.items.find(i=>i.id===id);if(!it)return;const m=MODES[it.mode],mm=matches(it);
+const isF=it.kind==="found";
+$("#dlg").innerHTML=`<div class="dl"><button class="x" aria-label="Close" onclick="$('#dlg').close()">×</button><i class="tag" style="color:var(--${isF?"found":"lost"})">${isF?"FOUND":"LOST"}</i><h3>${it.ce||CATS[it.cat][0]} ${esc(it.title)}</h3>
+<dl class="kv"><dt>${m[3]}</dt><dd>${esc(it.a||"-")}</dd><dt>${m[5]}</dt><dd>${esc(it.b||"-")}</dd><dt>Where</dt><dd>${esc(it.place)}, ${esc(it.city)}${stateOf(it)?", "+esc(stateOf(it)):""}</dd><dt>When</dt><dd>${ago(it.date)}</dd><dt>Details</dt><dd>${esc(it.desc||"-")}</dd><dt>Reported by</dt><dd>${esc(it.name)}</dd></dl>
+${it.mine?`<h4>Smart matches</h4>${matchHTML(it)}`:isF&&it.status!=="claimed"?`<div id="claim"><div class="warn"><b>Is this yours?</b> The finder asks: ${esc(it.sq)}</div><label>Your answer</label><input id="ans"><p class="err" id="cerr"></p><button class="pri" id="cbtn" data-claim="${it.id}">Claim item</button></div>`:isF?`<div class="ok">Already claimed and verified.</div>`:`<h4>${hi()?"मालिक से संपर्क करें":"Contact the owner"}</h4>${it.cat==="docs"?urgent(it):""}${contact(it,"lost")}<p class="mt"><button class="pri" data-found="${it.id}">I found this</button></p>`}
+<p class="hint mt">${TIPS[it.mode]}</p><div class="act">${actHTML(it)}</div></div>`;
+$("#dlg").showModal()}
+function claim(id){const it=S.items.find(i=>i.id===id),a=tok($("#ans").value),s=tok(it.sa),hit=s.filter(w=>a.includes(w)).length;
+if(!a.length||hit<Math.ceil(s.length/2)){it.tries=(it.tries||0)+1;$("#cerr").textContent=it.tries>=3?"Too many wrong answers. Ask the finder through the help desk.":"That answer does not match. Check and try again.";save();return}
+it.status="claimed";save();renderAll();
+$("#claim").innerHTML=`<div class="ok"><b>Verified.</b> Contact ${esc(it.name)}: +91 ${esc(it.phone)}${contact(it,"found")}<p class="hint">${TIPS[it.mode]}</p></div>`}
+var E=null;
+const uid=()=>S.user&&(S.user.id||S.user.phone);
+const canEdit=it=>!!S.user&&(!it.owner||it.owner===uid());
+const actHTML=it=>!canEdit(it)?"":`<button type="button" class="cb" data-edit="${it.id}">✏️ ${hi()?"बदलें":"Edit"}</button><button type="button" class="cb del" data-del="${it.id}">🗑️ ${hi()?"हटाएँ":"Delete"}</button>`;
+function setSubmit(edit){const sb=$("#form button[type=submit]");sb.dataset.t=edit?"save_edit":"submit";sb.dataset.en=edit?"Save changes":"Submit report";sb.textContent=hi()&&HI[sb.dataset.t]?HI[sb.dataset.t]:sb.dataset.en}
+function endEdit(){E=null;$("#editbar").hidden=true;setSubmit(false)}
+function startEdit(id){const it=S.items.find(i=>i.id===id);if(!it)return;if(!canEdit(it)){$("#dlg").close();return toast(hi()?"आप सिर्फ़ अपनी रिपोर्ट बदल सकते हैं":"You can only change your own reports")}$("#dlg").close();E=id;F.kind=it.kind;F.mode=it.mode;go("report");
+$$("#fkind button").forEach(b=>b.classList.toggle("on",b.dataset.k===it.kind));$("#sec").hidden=it.kind!=="found";drawModes();fieldLabels();
+const v=(k,x)=>{$("#"+k).value=x??""};
+v("cat",it.cat);syncCust();v("cn",it.cn);v("ce",it.ce||"✏️");v("title",it.title);v("desc",it.desc);v("fa",it.a);v("fb",it.b);v("state",stateOf(it));fillCities();v("city",it.city);v("place",it.place);v("date",it.date);v("name",it.name);v("phone",it.phone);v("sq",it.sq);v("sa",it.sa);
+$("#err").textContent="";const bar=$("#editbar");bar.hidden=false;
+bar.innerHTML=`<span>✏️ ${hi()?"संपादन":"Editing"}: <b>${esc(it.title)}</b></span><button type="button" class="ghost" id="cancelEdit">${hi()?"रद्द करें":"Cancel"}</button>`;setSubmit(true)}
+function arm(n,run){if(n.dataset.armed==="1"){clearTimeout(n._t);n.dataset.armed="";n.textContent=n.dataset.l;return run()}
+n.dataset.l=n.textContent;n.dataset.armed="1";n.textContent=hi()?"⚠️ फिर से टैप करें":"⚠️ Tap again to confirm";n._t=setTimeout(()=>{n.dataset.armed="";n.textContent=n.dataset.l},3000)}
+function go(v){if(!S.user&&v!=="login"){LG.next=v;v="login"}document.body.classList.toggle("authed",!!S.user);$$("section.v").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));$$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));window.scrollTo(0,0);renderAll();pulse();if(v==="report"&&S.user&&!E){if(!$("#name").value)$("#name").value=S.user.name;if(!$("#phone").value)$("#phone").value=S.user.phone||""}SL.slice(1).forEach(f=>f(false))}
+document.addEventListener("click",e=>{const t=e.target;let n;
+if(n=t.closest("nav button"))return go(n.dataset.v);
+if(n=t.closest("#modes .chip")){V.mode=n.dataset.m;drawModes();renderBoard();return pulse()}
+if(n=t.closest("#fmodes .chip")){F.mode=n.dataset.m;drawModes();return fieldLabels()}
+if(n=t.closest("#kinds button")){V.kind=n.dataset.k;$$("#kinds button").forEach(b=>b.classList.toggle("on",b===n));renderBoard();return pulse()}
+if(n=t.closest("#fkind button")){F.kind=n.dataset.k;$$("#fkind button").forEach(b=>b.classList.toggle("on",b===n));$("#sec").hidden=F.kind!=="found";return}
+if(n=t.closest("[data-copy]")){try{navigator.clipboard.writeText("+91 "+n.dataset.copy).then(()=>toast(hi()?"नंबर कॉपी हो गया":"Number copied"))}catch(x){toast("+91 "+n.dataset.copy)}return}
+if(n=t.closest("[data-claim]"))return claim(n.dataset.claim);
+if(n=t.closest("[data-found]")){const it=S.items.find(i=>i.id===n.dataset.found);$("#dlg").close();F.kind="found";F.mode=it.mode;go("report");$$("#fkind button").forEach(b=>b.classList.toggle("on",b.dataset.k==="found"));$("#sec").hidden=false;drawModes();fieldLabels();$("#cat").value=it.cat;syncCust();$("#city").value=it.city;$("#state").value=stateOf(it);fillCities();return}
+if(n=t.closest("[data-done]")){const it=S.items.find(i=>i.id===n.dataset.done);it.status="returned";save();renderAll();return toast("Marked as returned. Thank you!")}
+if(n=t.closest("[data-edit]"))return startEdit(n.dataset.edit);
+if(n=t.closest("[data-del]")){const id=n.dataset.del;{const x=S.items.find(i=>i.id===id);if(!x||!canEdit(x))return toast(hi()?"आप सिर्फ़ अपनी रिपोर्ट हटा सकते हैं":"You can only delete your own reports")}return arm(n,()=>{S.items=S.items.filter(i=>i.id!==id);if(E===id){endEdit();$("#form").reset()}save();if($("#dlg").open)$("#dlg").close();renderAll();toast(hi()?"रिपोर्ट हटा दी गई":"Report deleted")})}
+if(n=t.closest("#cancelEdit")){endEdit();$("#form").reset();$("#cust").hidden=true;fillCities();$("#sec").hidden=F.kind!=="found";return go("home")}
+if(n=t.closest("#reset"))return arm(n,()=>{S.items=[...S.items.filter(i=>String(i.id).startsWith("u")),...JSON.parse(JSON.stringify(SEED))];save();endEdit();renderAll();drawModes();toast(hi()?"नमूना रिपोर्ट रीसेट हो गईं":"Sample reports restored")});
+if(n=t.closest("[data-id]")){if($("#dlg").open)$("#dlg").close();return openItem(n.dataset.id)}
+if(t===$("#dlg"))$("#dlg").close()});
+$("#go").onclick=()=>{V.q=$("#q").value;renderBoard()};
+$("#q").oninput=e=>{V.q=e.target.value;renderBoard()};
+const jelly=el=>{el.classList.remove("jelly");void el.offsetWidth;el.classList.add("jelly")};
+$("#lang").onclick=e=>{S.lang=hi()?"en":"hi";save();applyLang();jelly(e.currentTarget);refreshSL()};
+function setTheme(t){document.documentElement.dataset.theme=t;$("#theme").setAttribute("aria-checked",t==="dark");try{localStorage.setItem("foundit-theme",t)}catch(e){}}
+$("#theme").onclick=e=>{setTheme($("#theme").getAttribute("aria-checked")==="true"?"light":"dark");jelly(e.currentTarget)};
+{let t;try{t=localStorage.getItem("foundit-theme")}catch(e){}setTheme(t||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"))}
+$("#form").onsubmit=e=>{e.preventDefault();if(!S.user){LG.next="report";return go("login")}const g=i=>$("#"+i).value.trim(),er=m=>$("#err").textContent=m;
+const it={id:"u"+Date.now(),kind:F.kind,mode:F.mode,cat:g("cat"),title:g("title"),desc:g("desc"),a:g("fa"),b:g("fb"),city:g("city"),state:g("state"),place:g("place"),date:g("date")||iso(0),name:g("name"),mine:true,status:"open",owner:uid()};
+it.phone=g("phone").replace(/\D/g,"").replace(/^91(?=\d{10}$)/,"");
+if(/\b\d{4}\s?\d{4}\s?\d{4}\b/.test([it.title,it.desc,it.a,it.b].join(" "))||/\b[A-Z]{5}\d{4}[A-Z]\b/i.test([it.title,it.desc].join(" ")))return er("Remove the Aadhaar or PAN number. Describe the document without its number.");
+if(!it.state)return er(hi()?"राज्य या केंद्रशासित प्रदेश चुनें।":"Select your state or UT.");
+if(it.cat==="custom"){it.cn=g("cn");it.ce=g("ce");if(!it.cn)return er(hi()?"अपनी चीज़ का नाम लिखें।":"Name your custom item.")}
+if(!/^[6-9]\d{9}$/.test(it.phone))return er("Enter a 10-digit Indian mobile number starting with 6, 7, 8 or 9.");
+if(F.kind==="found"){it.sq=g("sq");it.sa=g("sa");if(!it.sq||!it.sa)return er("Add a verification question and its answer so only the owner can claim it.")}
+er("");let old=null;
+if(E){old=S.items.find(i=>i.id===E);if(old){if(!canEdit(old))return er(hi()?"आप सिर्फ़ अपनी रिपोर्ट बदल सकते हैं":"You can only change your own reports");const keep={id:old.id,mine:old.mine,status:old.status,tries:old.tries,owner:old.owner};["cn","ce","sq","sa"].forEach(k=>delete old[k]);Object.assign(old,it,keep)}else S.items.unshift(it)}else S.items.unshift(it);
+const wasEdit=!!E;endEdit();save();$("#form").reset();$("#cust").hidden=true;fillCities();$("#date").max=iso(0);$("#sec").hidden=F.kind!=="found";
+go(old&&!old.mine?"home":"mine");toast(wasEdit?(hi()?"बदलाव सहेज लिए गए":"Changes saved"):F.kind==="found"?"Thank you for helping a stranger!":"Report saved. Checking for matches.")};
+document.addEventListener("input",e=>{const i=e.target.closest&&e.target.closest(".mnum");if(!i)return;
+const root=i.closest(".dl"),d=i.value.replace(/\D/g,"").replace(/^91(?=\d{10}$)/,""),ok=/^[6-9]\d{9}$/.test(d),h=root.querySelector(".mhint");
+h.textContent=ok||!d?"":(hi()?"6 से 9 से शुरू होने वाला 10 अंकों का नंबर लिखें":"Enter a 10-digit mobile number starting with 6, 7, 8 or 9");
+if(!ok)return;const m=i.closest(".manual").dataset.m;
+root.querySelectorAll("[data-l]").forEach(a=>{const l=a.dataset.l;a.href=l==="tel"?`tel:+91${d}`:l==="wa"?`https://wa.me/91${d}?text=${m}`:`sms:+91${d}?body=${m}`});
+root.querySelectorAll("[data-copy]").forEach(b=>b.dataset.copy=d);root.querySelectorAll(".num").forEach(s=>s.textContent="+91 "+d)});
+$("#fs").onchange=e=>{V.st=e.target.value;V.ct="";fillGeo();renderBoard();pulse()};
+$("#fc").onchange=e=>{V.ct=e.target.value;renderBoard();pulse()};
+$("#state").onchange=fillCities;
+$("#city").addEventListener("change",()=>{const s=CITY2ST[$("#city").value.trim().toLowerCase()];if(s&&$("#state").value!==s){$("#state").value=s;fillCities()}});
+$("#cat").onchange=syncCust;
+$("#date").max=iso(0);
+applyLang();
+var SL=[];
+function glassSlider(c){const t=document.createElement("i");t.className="nth";c.prepend(t);let cur=null,tm;
+const set=(l,w)=>{t.style.transform=`translateX(${l}px)`;t.style.width=w+"px"};
+const move=anim=>{const b=c.querySelector("button.on");t.style.opacity=b?"":"0";if(!b||!b.offsetWidth)return;const x=b.offsetLeft,w=b.offsetWidth;clearTimeout(tm);
+if(!anim||!cur){t.classList.remove("st");set(x,w);cur={x,w};return}
+if(cur.x===x&&cur.w===w)return;
+const l=Math.min(cur.x,x),r=Math.max(cur.x+cur.w,x+w);t.classList.add("st");set(l,r-l);
+tm=setTimeout(()=>{t.classList.remove("st");set(x,w);t.classList.remove("jelly");void t.offsetWidth;t.classList.add("jelly")},170);cur={x,w}};
+new MutationObserver(rs=>{if(rs.some(r=>r.target.tagName==="BUTTON"))move(true)}).observe(c,{subtree:true,attributes:true,attributeFilter:["class"]});
+SL.push(move);move(false);return move}
+glassSlider(document.querySelector("header nav"));glassSlider($("#kinds"));glassSlider($("#fkind"));
+const refreshSL=()=>SL.forEach(f=>f(false));
+addEventListener("resize",refreshSL);addEventListener("load",refreshSL);
+document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest(".pri,.cb,.chip,.row,.x,nav button,.seg button,.match");if(!b)return;b.classList.remove("press");void b.offsetWidth;b.classList.add("press")});
+document.addEventListener("animationend",e=>{if(e.animationName==="squish")e.target.classList.remove("press")});
+const LG={mode:"phone",email:"",sent:false,code:"",phone:"",name:"",exp:0,bad:0,lock:0,next:"home",guest:false,tm:null};
+const digits=s=>s.replace(/\D/g,"").replace(/^91(?=\d{10}$)/,"");
+const lerr=(m,id)=>{$("#"+(id||"lerr")).textContent=m};
+function updateAccount(){const u=S.user;$("#acct").textContent=u?`👤 ${u.name} · ${u.phone?`+91 ${u.phone.slice(0,2)}•••••${u.phone.slice(-3)}`:u.email.replace(/^(.).*(@.*)$/,"$1•••$2")}`:(hi()?"साइन इन नहीं है":"Not signed in");$("#acbtn").textContent=u?(hi()?"लॉग आउट":"Log out"):(hi()?"साइन इन":"Sign in")}
+function resetLogin(){clearInterval(LG.tm);$("#lg1").hidden=false;$("#lg2").hidden=true;lerr("");lerr("","lerr2")}
+function sendCode(){const em=LG.mode==="email",ph=digits($("#lphone").value),mail=$("#lemail").value.trim().toLowerCase(),nm=$("#lname").value.trim();
+if(nm.length<2)return lerr(hi()?"अपना नाम लिखें":"Enter your name");
+if(em?!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail):!/^[6-9]\d{9}$/.test(ph))return lerr(em?(hi()?"सही ईमेल पता लिखें":"Enter a valid email address"):(hi()?"6 से 9 से शुरू होने वाला 10 अंकों का नंबर लिखें":"Enter a 10-digit mobile number starting with 6, 7, 8 or 9"));
+lerr("");LG.phone=ph;LG.email=mail;LG.sent=em;LG.name=nm;LG.code=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);LG.exp=Date.now()+300000;LG.bad=0;
+$("#lg1").hidden=true;$("#lg2").hidden=false;$("#lto").textContent=em?mail:"+91 "+ph;$("#dcode").textContent=LG.code;lerr("","lerr2");
+$$("#otp input").forEach(i=>i.value="");$("#otp input").focus();
+let s=30;const b=$("#lres"),t=$("#lt");b.disabled=true;clearInterval(LG.tm);
+const tick=()=>{t.textContent=s>0?(hi()?`${s} सेकंड में दोबारा भेजें`:`Resend in ${s}s`):"";if(s<=0){clearInterval(LG.tm);b.disabled=false}s--};tick();LG.tm=setInterval(tick,1000)}
+function verify(){if(Date.now()<LG.lock)return lerr(`Too many tries. Wait ${Math.ceil((LG.lock-Date.now())/1000)}s.`,"lerr2");
+const c=$$("#otp input").map(i=>i.value).join("");
+if(c.length<6)return lerr(hi()?"6 अंकों का कोड लिखें":"Enter the 6-digit code","lerr2");
+if(Date.now()>LG.exp)return lerr("This code has expired. Tap Resend code.","lerr2");
+if(c!==LG.code){LG.bad++;if(LG.bad>=5){LG.lock=Date.now()+60000;LG.bad=0;return lerr("Too many wrong codes. Try again in 60 seconds.","lerr2")}return lerr(hi()?"कोड सही नहीं है":"That code is not correct.","lerr2")}
+S.user=LG.sent?{id:LG.email,email:LG.email,name:LG.name}:{id:LG.phone,phone:LG.phone,name:LG.name};save();resetLogin();toast((hi()?"स्वागत है, ":"Welcome, ")+LG.name);go(LG.next||"home")}
+$("#otp").innerHTML=Array.from({length:6},(_,i)=>`<input inputmode="numeric" maxlength="1" aria-label="Digit ${i+1}" autocomplete="${i?"off":"one-time-code"}">`).join("");
+$("#otp").addEventListener("input",e=>{const i=e.target;i.value=i.value.replace(/\D/g,"").slice(-1);if(i.value&&i.nextElementSibling)i.nextElementSibling.focus();else if(i.value&&!i.nextElementSibling)verify()});
+$("#otp").addEventListener("keydown",e=>{if(e.key==="Backspace"&&!e.target.value&&e.target.previousElementSibling)e.target.previousElementSibling.focus()});
+$("#otp").addEventListener("paste",e=>{const d=(e.clipboardData.getData("text")||"").replace(/\D/g,"").slice(0,6);if(!d)return;e.preventDefault();$$("#otp input").forEach((x,i)=>x.value=d[i]||"");if(d.length===6)verify()});
+glassSlider($("#lmode"));
+$("#lmode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;LG.mode=b.dataset.k;$$("#lmode button").forEach(x=>x.classList.toggle("on",x===b));$("#lph").hidden=LG.mode==="email";$("#lem").hidden=LG.mode!=="email";lerr("");(LG.mode==="email"?$("#lemail"):$("#lphone")).focus()});
+$("#lsend").onclick=sendCode;$("#lres").onclick=sendCode;$("#lverify").onclick=verify;$("#lchg").onclick=resetLogin;
+$("#lphone").onkeydown=$("#lemail").onkeydown=$("#lname").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();sendCode()}};
+$("#acbtn").onclick=()=>{if(S.user){S.user=null;save();toast(hi()?"आप लॉग आउट हो गए":"Signed out");go("login")}else{LG.next="home";go("login")}};
+const I=$("#intro");
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)I.remove();else{let done=false;
+const end=()=>{if(done)return;done=true;I.classList.add("out");document.body.classList.add("reveal");pulse();setTimeout(()=>{I.remove();document.body.classList.remove("reveal")},2000)};
+I.onclick=end;setTimeout(end,3200)}
+updateAccount();if(!S.user)go("login");else document.body.classList.add("authed");
+</script>
+</body>
+</html>
